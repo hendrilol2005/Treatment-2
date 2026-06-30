@@ -1,0 +1,250 @@
+/* Reset & dasar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+  background: #f4f7fc;
+  color: #1e293b;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff;
+  padding: 12px 24px;
+  border-radius: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #0f3b5e;
+}
+
+.nav-links a {
+  text-decoration: none;
+  margin-left: 20px;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-weight: 500;
+  color: #475569;
+  background: #f1f5f9;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.nav-links a.active {
+  background: #1e4a6f;
+  color: white;
+}
+
+.nav-links a:hover:not(.active) {
+  background: #e2e8f0;
+}
+
+/* Halaman */
+.page {
+  display: none;
+  width: 100%;
+  max-width: 1000px;
+  animation: fade 0.25s ease;
+}
+
+.page.active-page {
+  display: block;
+}
+
+@keyframes fade {
+  from { opacity: 0.3; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Kartu */
+.card {
+  background: white;
+  border-radius: 28px;
+  padding: 30px 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.form-card h2,
+.table-card h2 {
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: #0b2a41;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d9e6;
+  border-radius: 14px;
+  font-size: 1rem;
+  background: #fafcff;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1e4a6f;
+  box-shadow: 0 0 0 3px rgba(30, 74, 111, 0.15);
+}
+
+.btn-primary {
+  background: #1e4a6f;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: #143b57;
+  transform: scale(0.98);
+}
+
+.message {
+  margin-top: 16px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.message.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Tabel */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 12px 0 8px;
+}
+
+#dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+#dataTable th {
+  background: #f1f5f9;
+  font-weight: 600;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 2px solid #d1d9e6;
+}
+
+#dataTable td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #e9edf2;
+  vertical-align: middle;
+}
+
+#dataTable tr:hover td {
+  background: #f8fafc;
+}
+
+.btn-delete {
+  background: #e11d48;
+  color: white;
+  border: none;
+  padding: 4px 14px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.btn-delete:hover {
+  background: #be123c;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  padding: 30px 0 10px;
+}
+
+/* Responsif */
+@media (max-width: 640px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    border-radius: 28px;
+    padding: 16px;
+  }
+
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .nav-links a {
+    margin-left: 0;
+    padding: 6px 18px;
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+
+  #dataTable th,
+  #dataTable td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+
+  .btn-delete {
+    padding: 2px 12px;
+  }
+}

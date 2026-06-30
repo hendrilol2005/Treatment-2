@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goal Treatment · Input Data</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVIGASI -->
+  <nav class="navbar">
+    <span class="brand">📋 Goal Treatment</span>
+    <div class="nav-links">
+      <a href="#" id="navForm" class="active">Form</a>
+      <a href="#" id="navTable">Tabel Data</a>
+    </div>
+  </nav>
+
+  <!-- ===== HALAMAN FORM ===== -->
+  <section id="pageForm" class="page active-page">
+    <div class="card form-card">
+      <h2>📥 Input Data</h2>
+      <form id="dataForm">
+        <div class="form-group">
+          <label for="nama">Nama</label>
+          <input type="text" id="nama" placeholder="Nama lengkap" required />
+        </div>
+        <div class="form-group">
+          <label for="nim">NIM</label>
+          <input type="text" id="nim" placeholder="NIM" required />
+        </div>
+        <div class="form-group">
+          <label for="layanan">Jenis Layanan</label>
+          <select id="layanan" required>
+            <option value="">-- pilih --</option>
+            <option value="Konsultasi">Konsultasi</option>
+            <option value="Bimbingan">Bimbingan</option>
+            <option value="Pelatihan">Pelatihan</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="keterangan">Keterangan</label>
+          <textarea id="keterangan" rows="3" placeholder="Catatan tambahan..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Simpan Data</button>
+      </form>
+      <div id="formMessage" class="message"></div>
+    </div>
+  </section>
+
+  <!-- ===== HALAMAN TABEL ===== -->
+  <section id="pageTable" class="page">
+    <div class="card table-card">
+      <h2>📊 Data Tersimpan</h2>
+      <div class="table-wrapper">
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>NIM</th>
+              <th>Jenis Layanan</th>
+              <th>Keterangan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- data akan diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      <p id="emptyMessage" class="empty-msg">Belum ada data. Silakan input data di halaman Form.</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
