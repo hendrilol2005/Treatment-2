@@ -1,188 +1,146 @@
-// ===== DATA STORE =====
-let dataList = [];          // array untuk menyimpan objek data
-let nextId = 1;            // ID increment sederhana
+// ===== DATA =====
+let dataList = [];
+let nextId = 1;
 
-// ===== ELEMEN DOM =====
+// ===== DOM =====
 const form = document.getElementById('dataForm');
-const namaInput = document.getElementById('nama');
-const nimInput = document.getElementById('nim');
-const layananSelect = document.getElementById('layanan');
-const keteranganInput = document.getElementById('keterangan');
+const nama = document.getElementById('nama');
+const meja = document.getElementById('meja');
+const menu = document.getElementById('menu');
+const jumlah = document.getElementById('jumlah');
+const catatan = document.getElementById('catatan');
 const formMessage = document.getElementById('formMessage');
-
 const tableBody = document.getElementById('tableBody');
 const emptyMsg = document.getElementById('emptyMessage');
 
-// ===== NAVIGASI =====
+// Modal
+const modal = document.getElementById('notificationModal');
+const modalBody = document.getElementById('modalBody');
+const modalOk = document.getElementById('modalOkBtn');
+
+// Navigasi
 const navForm = document.getElementById('navForm');
 const navTable = document.getElementById('navTable');
 const pageForm = document.getElementById('pageForm');
 const pageTable = document.getElementById('pageTable');
 
-// Fungsi ganti halaman
 function showPage(page) {
-  // sembunyikan semua
   pageForm.classList.remove('active-page');
   pageTable.classList.remove('active-page');
   navForm.classList.remove('active');
   navTable.classList.remove('active');
-
   if (page === 'form') {
     pageForm.classList.add('active-page');
     navForm.classList.add('active');
   } else {
     pageTable.classList.add('active-page');
     navTable.classList.add('active');
-    renderTable(); // refresh tabel setiap kali dibuka
+    renderTable();
   }
 }
 
-navForm.addEventListener('click', (e) => {
-  e.preventDefault();
-  showPage('form');
-});
+navForm.addEventListener('click', e => { e.preventDefault(); showPage('form'); });
+navTable.addEventListener('click', e => { e.preventDefault(); showPage('table'); });
 
-navTable.addEventListener('click', (e) => {
-  e.preventDefault();
-  showPage('table');
-});
+// ===== MODAL ERROR =====
+function showErrorModal(errors) {
+  let html = '<ul>';
+  errors.forEach(err => html += `<li>${err}</li>`);
+  html += '</ul>';
+  modalBody.innerHTML = html;
+  modal.style.display = 'flex';
+}
 
-// ===== FUNGSI TAMBAH DATA =====
-function tambahData(event) {
-  event.preventDefault(); // stop reload
+// Tutup modal
+modalOk.addEventListener('click', () => modal.style.display = 'none');
+modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
 
-  // Ambil nilai
-  const nama = namaInput.value.trim();
-  const nim = nimInput.value.trim();
-  const layanan = layananSelect.value;
-  const keterangan = keteranganInput.value.trim();
+// ===== TAMBAH DATA =====
+form.addEventListener('submit', function(e) {
+  e.preventDefault(); // matikan validasi bawaan browser
 
-  // Validasi sederhana
-  if (!nama || !nim || !layanan) {
-    formMessage.textContent = '⚠️ Nama, NIM, dan Jenis Layanan wajib diisi.';
-    formMessage.className = 'message error';
+  const valNama = nama.value.trim();
+  const valMeja = meja.value.trim();
+  const valMenu = menu.value;
+  const valJumlah = jumlah.value.trim();
+  const valCatatan = catatan.value.trim();
+
+  let errors = [];
+
+  if (!valNama) errors.push('Nama pelanggan wajib diisi.');
+  if (!valMeja) errors.push('Nomor meja wajib diisi.');
+  if (!valMenu) errors.push('Menu wajib dipilih.');
+  if (!valJumlah) {
+    errors.push('Jumlah porsi wajib diisi.');
+  } else if (isNaN(valJumlah) || parseInt(valJumlah) < 1) {
+    errors.push('Jumlah harus angka positif (minimal 1).');
+  }
+
+  if (errors.length > 0) {
+    showErrorModal(errors);
     return;
   }
 
-  // Buat objek data
+  // Simpan data
   const newData = {
     id: nextId++,
-    nama: nama,
-    nim: nim,
-    layanan: layanan,
-    keterangan: keterangan || '-'
+    nama: valNama,
+    meja: valMeja,
+    menu: valMenu,
+    jumlah: parseInt(valJumlah),
+    catatan: valCatatan || '-'
   };
-
-  // Simpan ke array
   dataList.push(newData);
 
-  // Tampilkan pesan sukses
-  formMessage.textContent = '✅ Data berhasil disimpan!';
+  formMessage.textContent = '✅ Pesanan berhasil disimpan!';
   formMessage.className = 'message success';
-
-  // Reset form (opsional)
   form.reset();
-  // Kosongkan pesan setelah 3 detik
   setTimeout(() => {
     formMessage.textContent = '';
     formMessage.className = 'message';
   }, 3000);
 
-  // Jika tabel sedang aktif, perbarui tampilan
-  if (pageTable.classList.contains('active-page')) {
-    renderTable();
-  }
-}
+  if (pageTable.classList.contains('active-page')) renderTable();
+});
 
 // ===== RENDER TABEL =====
 function renderTable() {
-  // Kosongkan tbody
   tableBody.innerHTML = '';
-
   if (dataList.length === 0) {
     emptyMsg.style.display = 'block';
     return;
   }
   emptyMsg.style.display = 'none';
-
-  // Loop data
   dataList.forEach((item, index) => {
     const row = document.createElement('tr');
-
-    // No
-    const tdNo = document.createElement('td');
-    tdNo.textContent = index + 1;
-    row.appendChild(tdNo);
-
-    // Nama
-    const tdNama = document.createElement('td');
-    tdNama.textContent = item.nama;
-    row.appendChild(tdNama);
-
-    // NIM
-    const tdNim = document.createElement('td');
-    tdNim.textContent = item.nim;
-    row.appendChild(tdNim);
-
-    // Layanan
-    const tdLayanan = document.createElement('td');
-    tdLayanan.textContent = item.layanan;
-    row.appendChild(tdLayanan);
-
-    // Keterangan
-    const tdKet = document.createElement('td');
-    tdKet.textContent = item.keterangan;
-    row.appendChild(tdKet);
-
-    // Aksi (tombol hapus)
-    const tdAksi = document.createElement('td');
-    const btnHapus = document.createElement('button');
-    btnHapus.textContent = 'Hapus';
-    btnHapus.className = 'btn-delete';
-    btnHapus.setAttribute('data-id', item.id);
-    btnHapus.addEventListener('click', function() {
-      const id = parseInt(this.getAttribute('data-id'));
-      hapusData(id);
-    });
-    tdAksi.appendChild(btnHapus);
-    row.appendChild(tdAksi);
-
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${item.nama}</td>
+      <td>${item.meja}</td>
+      <td>${item.menu}</td>
+      <td>${item.jumlah}</td>
+      <td>${item.catatan}</td>
+      <td><button class="btn-delete" data-id="${item.id}">Hapus</button></td>
+    `;
     tableBody.appendChild(row);
+  });
+  // Event hapus
+  document.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      dataList = dataList.filter(item => item.id !== id);
+      renderTable();
+      if (pageForm.classList.contains('active-page')) {
+        formMessage.textContent = '🗑️ Pesanan dihapus.';
+        formMessage.className = 'message success';
+        setTimeout(() => {
+          formMessage.textContent = '';
+          formMessage.className = 'message';
+        }, 2000);
+      }
+    });
   });
 }
 
-// ===== FUNGSI HAPUS DATA =====
-function hapusData(id) {
-  // Filter array, hapus data dengan id tertentu
-  dataList = dataList.filter(item => item.id !== id);
-  renderTable(); // refresh tabel
-
-  // Jika form sedang aktif, tidak perlu refresh, tapi kita bisa tampilkan pesan?
-  // Tidak wajib. Tapi kita bisa kasih notifikasi kecil di form (optional)
-  // Kita tampilkan pesan di form message jika form aktif
-  if (pageForm.classList.contains('active-page')) {
-    formMessage.textContent = '🗑️ Data telah dihapus.';
-    formMessage.className = 'message success';
-    setTimeout(() => {
-      formMessage.textContent = '';
-      formMessage.className = 'message';
-    }, 2000);
-  }
-}
-
-// ===== EVENT LISTENER FORM =====
-form.addEventListener('submit', tambahData);
-
-// ===== INISIALISASI =====
-// Tampilkan halaman form secara default (sudah ada class active-page di HTML)
-// Tapi pastikan navigasi aktif sesuai
-// Jika ada data awal untuk demo, bisa ditambahkan (opsional)
-// Contoh data awal (komentar, bisa diaktifkan jika ingin)
-/*
-dataList.push({ id: nextId++, nama: 'Andi Pratama', nim: '12345678', layanan: 'Konsultasi', keterangan: 'Membahas proyek akhir' });
-dataList.push({ id: nextId++, nama: 'Siti Nurhaliza', nim: '87654321', layanan: 'Bimbingan', keterangan: 'Bimbingan skripsi' });
-renderTable();
-*/
-
-// Tampilkan form saat pertama kali (sudah)
-// Tapi jika ingin tabel langsung aktif, ubah class di HTML, tidak perlu.
+// Inisialisasi
+showPage('form');
