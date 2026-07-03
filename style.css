@@ -16,7 +16,6 @@ body {
   align-items: center;
 }
 
-/* Navbar */
 .navbar {
   width: 100%;
   max-width: 1000px;
@@ -58,7 +57,6 @@ body {
   background: #e2e8f0;
 }
 
-/* Halaman */
 .page {
   display: none;
   width: 100%;
@@ -75,7 +73,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Kartu */
 .card {
   background: white;
   border-radius: 28px;
@@ -90,7 +87,6 @@ body {
   color: #0b2a41;
 }
 
-/* Form */
 .form-group {
   margin-bottom: 18px;
 }
@@ -101,6 +97,12 @@ body {
   margin-bottom: 4px;
   font-size: 0.9rem;
   color: #334155;
+}
+
+.form-group .required {
+  color: #e11d48;
+  font-weight: 600;
+  margin-left: 2px;
 }
 
 .form-group input,
@@ -159,7 +161,6 @@ body {
   color: #991b1b;
 }
 
-/* Tabel */
 .table-wrapper {
   overflow-x: auto;
   margin: 12px 0 8px;
@@ -212,6 +213,93 @@ body {
   padding: 30px 0 10px;
 }
 
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.modal-box {
+  background: white;
+  border-radius: 24px;
+  max-width: 440px;
+  width: 90%;
+  padding: 28px 24px 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-header .modal-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.modal-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0b2a41;
+  margin: 0;
+}
+
+.modal-body {
+  font-size: 1rem;
+  color: #1e293b;
+  padding: 4px 0 16px;
+  line-height: 1.6;
+}
+
+.modal-body ul {
+  margin: 8px 0 0 20px;
+  padding-left: 4px;
+}
+
+.modal-body ul li {
+  margin-bottom: 4px;
+}
+
+.modal-footer {
+  text-align: right;
+  border-top: 1px solid #e9edf2;
+  padding-top: 16px;
+}
+
+.btn-modal-ok {
+  background: #1e4a6f;
+  color: white;
+  border: none;
+  padding: 8px 28px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.btn-modal-ok:hover {
+  background: #143b57;
+}
+
 /* Responsif */
 @media (max-width: 640px) {
   .navbar {
@@ -246,5 +334,9 @@ body {
 
   .btn-delete {
     padding: 2px 12px;
+  }
+
+  .modal-box {
+    padding: 20px 16px;
   }
 }
